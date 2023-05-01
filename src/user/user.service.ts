@@ -1,54 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
 import { UserCreateDto } from 'tools/dtos/user.dto';
-import { UserModel } from 'tools/models/user.model';
-
-const users: UserModel[] = [];
+import { AuditModel } from 'tools/models/audit.model';
+import { User } from 'tools/models/user.model';
 
 @Injectable()
 export class UserService {
-  getAllUsers(): UserModel[] {
-    if (users.length === 0) {
-      this.creatingMockData({
-        birthDay: new Date(),
-        email: "ramazanncelikk44@gmail.com",
-        name: "Ramazan",
-        surname: "Çelik",
-        password: "123456",
-      });
-    }
+
+  constructor(
+    @Inject('USER_MODEL')
+    private userModel: Model<User>,
+  ) { }
+
+  async findAll(): Promise<any> {
+    const users = await this.userModel.find();
     return users;
   }
 
-  getUserById(id): any {
-    const user = users.find(user => user.id == id);
-    if (user) {
-      return user;
+  async findById(id): Promise<any> {
+    const userMongo = await this.userModel.findById(id);
+    if (userMongo) {
+      return userMongo;
     } else {
       return "user does not exist";
     }
-
   }
 
-  createUser(body: UserCreateDto) {
-    const isExist = users.find(res => { res.email === body.email });
-    if (isExist) {
-      return isExist;
+
+
+  async createUser(body: UserCreateDto) {
+    const isExistMongo = await this.userModel.findOne({ email: body.email });
+    if (isExistMongo) {
+      return "There is already a user using the e-mail address you entered, please try with another e-mail.";
     } else {
-      this.creatingMockData(body);
-      return users.slice(users.length - 1, users.length)
+      const audit = new AuditModel();
+      audit.active = true;
+      audit.createdBy = "Admin";
+      audit.createdDate = new Date();
+
+      this.creatingUser({ ...body, audit });
+      const user = await this.userModel.findOne(body);
+      return user;
     }
   }
 
-  private creatingMockData(data: any) {
-    const user: UserModel = new UserModel();
-    user.birthDay = data.birthDay;
-    user.email = data.email;
-    user.name = data.name;
-    user.surname = data.surname;
-    user.password = data.password;
+  private async creatingUser(data: any) {
+    const newUser = new this.userModel(data);
+    await newUser.save();
+  }
 
-    user.id = (Math.floor(Math.random() * 60) + 1).toString();
+  async updateUser(id, body: any) {
+    const user = await this.userModel.findByIdAndUpdate(id, body, { new: true }).exec();
+    return user;
+  }
 
-    users.push(user);
+  async deleteUser(id): Promise<any> {
+    const user = await this.userModel.findByIdAndDelete(id).exec();
+    return user;
   }
 }
