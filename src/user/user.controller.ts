@@ -9,7 +9,7 @@ export class UserController {
 
     @Post()
     create(@Body() body: UserCreateDto): any {
-        return this.userService.createUser(body);
+        return this.userService.create(body);
     }
 
     @Get()
@@ -24,11 +24,11 @@ export class UserController {
 
     @Put(":id")
     updateUser(@Param('id') id: string, @Body() body: UserUpdateDto): Promise<any> {
-        return this.userService.updateUser(id, body);
+        return this.userService.update(id, body);
     }
 
     @Delete(":id")
     deleteUser(@Param('id') id: string): Promise<any> {
-        return this.userService.deleteUser(id);
+        return this.userService.delete(id);
     }
 }
