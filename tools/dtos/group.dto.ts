@@ -1,11 +1,7 @@
 import { RoleDto } from './role.dto';
 
-export class GroupCreateDto {
+export class GroupDto {
   name: string;
   description: string;
-}
-
-// tslint:disable-next-line: max-classes-per-file
-export class GroupRolesDto {
   roles: RoleDto[];
 }

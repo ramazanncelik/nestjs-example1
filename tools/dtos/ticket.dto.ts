@@ -13,3 +13,13 @@ export class TicketCreateDto {
   activities: ActivityModel[];
   inventories: InventoryModel[];
 }
+
+export class TicketUpdateDto {
+  name: string;
+  description: string;
+  type: TicketTypeModel;
+  responsible: UserModel;
+  audit: AuditModel;
+  activities: ActivityModel[];
+  inventories: InventoryModel[];
+}
