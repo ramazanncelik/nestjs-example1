@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Put, Delete, Param, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, UseFilters, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserCreateDto, UserUpdateDto } from 'tools/dtos/user.dto';
 import { UserModel } from 'tools/models/user.model';
+import { FilterModel } from 'tools/models/filter.model';
 
 @Controller('user')
 export class UserController {
@@ -13,8 +14,8 @@ export class UserController {
     }
 
     @Get()
-    getAllUsers(): Promise<UserModel[]> {
-        return this.userService.findAll();
+    getAllUsers(@Query() query: FilterModel): Promise<UserModel[]> {
+        return this.userService.findAll(query);
     }
 
     @Get(":id")
