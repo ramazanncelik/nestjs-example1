@@ -11,9 +11,9 @@ export class InventoryService extends ResourceService<
   InventoryDto
 > {
   constructor(
-    @Inject('PRODUCT_MODEL')
-    private productMongo: Model<InventoryModel>,
+    @Inject('INVENTORY_MODEL')
+    private inventoryMongo: Model<InventoryModel>,
   ) {
-    super(productMongo);
+    super(inventoryMongo);
   }
 }
