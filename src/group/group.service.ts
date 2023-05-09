@@ -11,7 +11,7 @@ export class GroupService extends ResourceService<
   GroupDto
 > {
   constructor(
-    @Inject('USER_MODEL')
+    @Inject('GROUP_MODEL')
     private groupMongo: Model<GroupModel>,
   ) {
     super(groupMongo);
