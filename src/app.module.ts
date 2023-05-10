@@ -11,9 +11,10 @@ import { GroupModule } from './group/group.module';
 import { TicketModule } from './ticket/ticket.module';
 import { ProductModule } from './product/product.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule, RoleModule, ActivityModule, GroupModule, TicketModule, ProductModule, InventoryModule, TotalModule, LibraryModule],
+  imports: [DatabaseModule, UserModule, LoginModule, RoleModule, ActivityModule, GroupModule, TicketModule, ProductModule, InventoryModule, TotalModule, LibraryModule],
   controllers: [AppController],
   providers: [AppService],
 })
