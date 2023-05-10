@@ -9,27 +9,28 @@ export class UserController {
     constructor(private userService: UserService) { }
 
     @Post()
-    create(@Body() body: UserCreateDto): any {
+    async create(@Body() body: UserCreateDto): Promise<any> {
+        body.password = await this.userService.convertToHash(body.password);
         return this.userService.create(body);
     }
 
     @Get()
-    getAllUsers(@Query() query: FilterModel): Promise<UserModel[]> {
+    async getAllUsers(@Query() query: FilterModel): Promise<UserModel[]> {
         return this.userService.findAll(query);
     }
 
     @Get(":id")
-    getUser(@Param('id') id: string): Promise<UserModel> {
+    async getUser(@Param('id') id: string): Promise<UserModel> {
         return this.userService.findById(id);
     }
 
     @Put(":id")
-    updateUser(@Param('id') id: string, @Body() body: UserUpdateDto): Promise<any> {
+    async updateUser(@Param('id') id: string, @Body() body: UserUpdateDto): Promise<any> {
         return this.userService.update(id, body);
     }
 
     @Delete(":id")
-    deleteUser(@Param('id') id: string): Promise<any> {
+    async deleteUser(@Param('id') id: string): Promise<any> {
         return this.userService.delete(id);
     }
 }
