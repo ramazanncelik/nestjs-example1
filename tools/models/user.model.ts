@@ -4,7 +4,7 @@ import { GroupModel } from './group.model';
 import mongoose from 'mongoose'
 
 export class UserModel {
-  id: string;
+  _id: string;
   name: string;
   surname: string;
   image: string;

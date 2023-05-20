@@ -11,5 +11,6 @@ import { DatabaseModule } from 'tools/database/database.module';
     GroupService,
     ...groupsProviders
   ],
+  exports: [GroupService]
 })
-export class GroupModule {}
+export class GroupModule { }

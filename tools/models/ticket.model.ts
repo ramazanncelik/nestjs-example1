@@ -6,7 +6,7 @@ import { UserModel } from './user.model';
 import mongoose from 'mongoose';
 
 export class TicketModel {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   type: TicketTypeModel;

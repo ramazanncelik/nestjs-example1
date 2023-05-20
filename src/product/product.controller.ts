@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductDto } from 'tools/dtos/product.dto';
 import { ProductModel } from 'tools/models/product.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("product")
 @Controller('product')
 export class ProductController {
     constructor(private activityService: ProductService) { }
@@ -13,8 +16,8 @@ export class ProductController {
     }
 
     @Get()
-    getAllProducts(): Promise<ProductModel[]> {
-        return this.activityService.findAll();
+    getAllProducts(@Query() query: FilterModel): Promise<ProductModel[]> {
+        return this.activityService.findAll(query);
     }
 
     @Get(":id")
