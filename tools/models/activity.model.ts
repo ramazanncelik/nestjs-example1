@@ -3,7 +3,7 @@ import { ActivityTypeModel } from './activity-type.model';
 import mongoose from 'mongoose';
 
 export class ActivityModel {
-  id: string;
+  _id: string;
   name: string;
   audit: AuditModel;
   type: ActivityTypeModel;

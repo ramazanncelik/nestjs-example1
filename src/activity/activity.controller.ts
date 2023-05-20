@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { ActivityDto } from 'tools/dtos/activity.dto';
 import { ActivityModel } from 'tools/models/activity.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("activity")
 @Controller('activity')
 export class ActivityController {
     constructor(private activityService: ActivityService) { }
@@ -13,8 +16,8 @@ export class ActivityController {
     }
 
     @Get()
-    getAllActivitys(): Promise<ActivityModel[]> {
-        return this.activityService.findAll();
+    getAllActivitys(@Query() query: FilterModel): Promise<ActivityModel[]> {
+        return this.activityService.findAll(query);
     }
 
     @Get(":id")

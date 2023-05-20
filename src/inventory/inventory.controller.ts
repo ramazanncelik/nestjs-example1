@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { InventoryDto } from 'tools/dtos/inventory.dto';
 import { InventoryModel } from 'tools/models/inventory.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("inventory")
 @Controller('inventory')
 export class InventoryController {
     constructor(private activityService: InventoryService) { }
@@ -13,8 +16,8 @@ export class InventoryController {
     }
 
     @Get()
-    getAllInventorys(): Promise<InventoryModel[]> {
-        return this.activityService.findAll();
+    getAllInventorys(@Query() query: FilterModel): Promise<InventoryModel[]> {
+        return this.activityService.findAll(query);
     }
 
     @Get(":id")

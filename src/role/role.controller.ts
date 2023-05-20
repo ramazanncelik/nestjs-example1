@@ -1,34 +1,37 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { RoleDto } from 'tools/dtos/role.dto';
 import { RoleModel } from 'tools/models/role.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("role")
 @Controller('role')
 export class RoleController {
-    constructor(private activityService: RoleService) { }
+    constructor(private roleService: RoleService) { }
 
     @Post()
     create(@Body() body: RoleDto): any {
-        return this.activityService.create(body);
+        return this.roleService.create(body);
     }
 
     @Get()
-    getAllRoles(): Promise<RoleModel[]> {
-        return this.activityService.findAll();
+    getAllRoles(@Query() query: FilterModel): Promise<RoleModel[]> {
+        return this.roleService.findAll(query);
     }
 
     @Get(":id")
     getRole(@Param('id') id: string): Promise<RoleModel> {
-        return this.activityService.findById(id);
+        return this.roleService.findById(id);
     }
 
     @Put(":id")
     updateRole(@Param('id') id: string, @Body() body: RoleDto): Promise<any> {
-        return this.activityService.update(id, body);
+        return this.roleService.update(id, body);
     }
 
     @Delete(":id")
     deleteRole(@Param('id') id: string): Promise<any> {
-        return this.activityService.delete(id);
+        return this.roleService.delete(id);
     }
 }

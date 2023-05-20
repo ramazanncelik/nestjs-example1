@@ -4,7 +4,7 @@ import { InventoryTypeModel } from './inventory-type.model';
 import { ProductModel } from './product.model';
 
 export class InventoryModel {
-  id: string;
+  _id: string;
   barcode: number;
   description: string;
   audit: AuditModel;

@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param,Query } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { TicketCreateDto,TicketUpdateDto } from 'tools/dtos/ticket.dto';
 import { TicketModel } from 'tools/models/ticket.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("ticket")
 @Controller('ticket')
 export class TicketController {
     constructor(private activityService: TicketService) { }
@@ -13,8 +16,8 @@ export class TicketController {
     }
 
     @Get()
-    getAllTickets(): Promise<TicketModel[]> {
-        return this.activityService.findAll();
+    getAllTickets(@Query() query: FilterModel): Promise<TicketModel[]> {
+        return this.activityService.findAll(query);
     }
 
     @Get(":id")

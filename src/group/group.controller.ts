@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Param, Query } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { GroupDto } from 'tools/dtos/group.dto';
 import { GroupModel } from 'tools/models/group.model';
+import { FilterModel } from 'tools/models/filter.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("group")
 @Controller('group')
 export class GroupController {
     constructor(private userService: GroupService) { }
@@ -13,8 +16,8 @@ export class GroupController {
     }
 
     @Get()
-    getAllGroups(): Promise<GroupModel[]> {
-        return this.userService.findAll();
+    getAllGroups(@Query() query: FilterModel): Promise<GroupModel[]> {
+        return this.userService.findAll(query);
     }
 
     @Get(":id")
